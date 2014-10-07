@@ -48,14 +48,16 @@ public class TADSPollServlet extends HttpServlet {
 	System.out.println("from " + fromNumber + ", to " + toNumber + ", drink " + drink);
 	System.out.println("birthDate " + birthDate + ", location " + location + ", favDrink " + favDrink);
 
-        resp.setContentType("text/html");
+//        resp.setContentType("text/html");
+	resp.setContentType("application/json");
         PrintWriter writer = resp.getWriter();
-        writer.println(PAGE_HEADER);
+	writer.println("{\"birthDate\": \"" + birthDate + "\", \"location\": \"" + location + "\", \"favDrink\": \"" + favDrink + "\"}");
+        /*writer.println(PAGE_HEADER);
         writer.println("<h1>Poll Results</h1>");
 	writer.println("<p>Birth Date" + birthDate + "</p>");
 	writer.println("<p>Location " + location + "</p>");
 	writer.println("<p>Favorite Drink " + favDrink + "</p>");
-        writer.println(PAGE_FOOTER);
+        writer.println(PAGE_FOOTER);*/
         writer.close();
     }
 
