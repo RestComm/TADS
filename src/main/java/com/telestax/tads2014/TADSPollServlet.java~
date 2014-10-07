@@ -28,10 +28,6 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/TADSPoll")
 public class TADSPollServlet extends HttpServlet {
 
-    static String PAGE_HEADER = "<html><head><title>TADS Poll Service</title></head><body>";
-
-    static String PAGE_FOOTER = "</body></html>";
-
     @Inject
     TADSPollService tadsPollService;
 
@@ -42,7 +38,12 @@ public class TADSPollServlet extends HttpServlet {
 	String drink = req.getParameter("drink");
 
 	String birthDate = tadsPollService.getBirthDate(toNumber);
-	String location = tadsPollService.getLocation(fromNumber);
+	String location = "France";
+	try {
+		location = tadsPollService.getLocation(fromNumber);
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
 	String favDrink = tadsPollService.getDrink(drink);
 
 	System.out.println("from " + fromNumber + ", to " + toNumber + ", drink " + drink);
@@ -51,7 +52,7 @@ public class TADSPollServlet extends HttpServlet {
 //        resp.setContentType("text/html");
 	resp.setContentType("application/json");
         PrintWriter writer = resp.getWriter();
-	writer("{\"birthDate\": \"" + birthDate + "\", \"location\": \"" + location + "\", \"favDrink\": \"" + favDrink + "\"}");
+	writer.println("{\"birthDate\": \"" + birthDate + "\", \"location\": \"" + location + "\", \"favDrink\": \"" + favDrink + "\"}");
         /*writer.println(PAGE_HEADER);
         writer.println("<h1>Poll Results</h1>");
 	writer.println("<p>Birth Date" + birthDate + "</p>");
