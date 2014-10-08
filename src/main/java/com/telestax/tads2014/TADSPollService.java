@@ -39,6 +39,9 @@ public class TADSPollService {
 	if(fromNumber.startsWith("+")) {
 		fromNumber = fromNumber.substring(1, fromNumber.length());
 	}
+	if(fromNumber.startsWith("00")) {
+		fromNumber = fromNumber.substring(2, fromNumber.length());
+	}
 	
 	String query = String.format("token=%s&msisdn=%s", URLEncoder.encode(TOKEN, CHARSET), URLEncoder.encode(fromNumber, CHARSET));
 

@@ -39,6 +39,9 @@ public class TADSPollService {
 	if(fromNumber.startsWith("+")) {
 		fromNumber = fromNumber.substring(1, fromNumber.length());
 	}
+	if(fromNumber.startsWith("00")) {
+		fromNumber = fromNumber.substring(1, fromNumber.length());
+	}
 	
 	String query = String.format("token=%s&msisdn=%s", URLEncoder.encode(TOKEN, CHARSET), URLEncoder.encode(fromNumber, CHARSET));
 
@@ -64,7 +67,7 @@ public class TADSPollService {
 		if(indexOfCountry != -1) {
 			String originalCountryStart = responseBody.substring(indexOfCountry + "original-country\":\"".length(), responseBody.length());
 			String originalCountry = originalCountryStart.substring(0, originalCountryStart.indexOf("\""));
-			System.out.println("originalCountry" + originalCountry);
+			System.out.println("originalCountry " + originalCountry);
 			location = originalCountry;
 		}
 	}
