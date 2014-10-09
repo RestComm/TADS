@@ -38,38 +38,66 @@ public class TADSPollServlet extends HttpServlet {
 		String fromNumber = req.getParameter("from");
 		String toNumber = req.getParameter("to");
 		String drink = req.getParameter("drink");
+		String checkCLI = req.getParameter("checkCLI");
 
 		String birthDate = tadsPollService.getBirthDate(toNumber);
-		String location = "France";
-		PhoneNumberInformation phoneNumberInformation = null;
-		try {
-			phoneNumberInformation = tadsPollService
-					.getPhoneNumberInformation(fromNumber);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		String favDrink = tadsPollService.getDrink(drink);
-		location = phoneNumberInformation.getLocation();
+		
+		if(checkCLI == null) {
+			
+			String location = "France";
+			PhoneNumberInformation phoneNumberInformation = null;
+			try {
+				phoneNumberInformation = tadsPollService
+						.getPhoneNumberInformation(fromNumber);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			if(phoneNumberInformation == null) {
+				resp.sendError(500);
+				return;
+			}
+			location = phoneNumberInformation.getLocation();
 
-		System.out.println("from " + fromNumber + ", to " + toNumber
-				+ ", drink " + drink);
-		System.out.println("birthDate " + birthDate + ", location " + location
-				+ ", favDrink " + favDrink);
+			System.out.println("from " + fromNumber + ", to " + toNumber
+					+ ", drink " + drink);
+			System.out.println("birthDate " + birthDate + ", location " + location
+					+ ", favDrink " + favDrink);
 
-		TADS2014Response tads2014Response = new TADS2014Response(birthDate,
-				favDrink, phoneNumberInformation);
+			TADS2014Response tads2014Response = new TADS2014Response(birthDate,
+					favDrink, phoneNumberInformation);
 
-		try {
-			boolean updated = tadsPollService.updateDashboard(tads2014Response);
-			System.out.println("udpated ? " + updated);
-		} catch (Exception e) {
-			e.printStackTrace();
+			try {
+				boolean updated = tadsPollService.updateDashboard(tads2014Response);
+				System.out.println("udpated ? " + updated);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			resp.setContentType("application/json");
+			PrintWriter writer = resp.getWriter();
+			Gson gson = new Gson();
+			writer.println(gson.toJson(tads2014Response));
+			writer.close();
+		} else {
+			String isRealNumber = "true";
+
+			if(fromNumber == null || fromNumber.trim().length() < 1) {
+				isRealNumber = "false";
+			} else {
+			      if(fromNumber.startsWith("+") && fromNumber.substring(1).matches("[0-9]+")) {
+			    	  isRealNumber = "true";
+			      } else if(fromNumber.matches("[0-9]+")) {
+			    	  isRealNumber = "true";
+			      } else {
+			    	  isRealNumber = "false";
+			      }
+			}
+			
+			resp.setContentType("application/json");
+			PrintWriter writer = resp.getWriter();
+			writer.println("{\"isRealNumber\"=\""+isRealNumber+"\",\"birthDate\"=\""+birthDate+"\",\"favDrink\"=\""+favDrink+"\"}");
+			writer.close();
 		}
-		resp.setContentType("application/json");
-		PrintWriter writer = resp.getWriter();
-		Gson gson = new Gson();
-		writer.println(gson.toJson(tads2014Response));
-		writer.close();
 	}
 
 }
