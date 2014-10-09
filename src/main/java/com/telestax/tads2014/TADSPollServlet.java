@@ -1,4 +1,3 @@
-
 package com.telestax.tads2014;
 
 import java.io.IOException;
@@ -10,6 +9,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.google.gson.Gson;
 
 /**
  * <p>
@@ -28,38 +29,47 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/TADSPoll")
 public class TADSPollServlet extends HttpServlet {
 
-    @Inject
-    TADSPollService tadsPollService;
+	@Inject
+	TADSPollService tadsPollService;
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	String fromNumber = req.getParameter("from");
-	String toNumber = req.getParameter("to");
-	String drink = req.getParameter("drink");
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		String fromNumber = req.getParameter("from");
+		String toNumber = req.getParameter("to");
+		String drink = req.getParameter("drink");
 
-	String birthDate = tadsPollService.getBirthDate(toNumber);
-	String location = "France";
-	try {
-		location = tadsPollService.getLocation(fromNumber);
-	} catch (Exception e) {
-		e.printStackTrace();
+		String birthDate = tadsPollService.getBirthDate(toNumber);
+		String location = "France";
+		PhoneNumberInformation phoneNumberInformation = null;
+		try {
+			phoneNumberInformation = tadsPollService
+					.getPhoneNumberInformation(fromNumber);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		String favDrink = tadsPollService.getDrink(drink);
+		location = phoneNumberInformation.getLocation();
+
+		System.out.println("from " + fromNumber + ", to " + toNumber
+				+ ", drink " + drink);
+		System.out.println("birthDate " + birthDate + ", location " + location
+				+ ", favDrink " + favDrink);
+
+		TADS2014Response tads2014Response = new TADS2014Response(birthDate,
+				favDrink, phoneNumberInformation);
+
+		try {
+			boolean updated = tadsPollService.updateDashboard(tads2014Response);
+			System.out.println("udpated ? " + updated);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		resp.setContentType("application/json");
+		PrintWriter writer = resp.getWriter();
+		Gson gson = new Gson();
+		writer.println(gson.toJson(tads2014Response));
+		writer.close();
 	}
-	String favDrink = tadsPollService.getDrink(drink);
-
-	System.out.println("from " + fromNumber + ", to " + toNumber + ", drink " + drink);
-	System.out.println("birthDate " + birthDate + ", location " + location + ", favDrink " + favDrink);
-
-//        resp.setContentType("text/html");
-	resp.setContentType("application/json");
-        PrintWriter writer = resp.getWriter();
-	writer.println("{\"birthDate\": \"" + birthDate + "\", \"location\": \"" + location + "\", \"favDrink\": \"" + favDrink + "\"}");
-        /*writer.println(PAGE_HEADER);
-        writer.println("<h1>Poll Results</h1>");
-	writer.println("<p>Birth Date" + birthDate + "</p>");
-	writer.println("<p>Location " + location + "</p>");
-	writer.println("<p>Favorite Drink " + favDrink + "</p>");
-        writer.println(PAGE_FOOTER);*/
-        writer.close();
-    }
 
 }

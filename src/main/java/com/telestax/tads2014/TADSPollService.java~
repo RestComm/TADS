@@ -6,6 +6,7 @@ import java.net.URLEncoder;
 import java.net.URL;
 import java.net.HttpURLConnection;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
 import java.io.InputStreamReader;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -20,6 +21,7 @@ import java.io.IOException;
 public class TADSPollService {
 
     static String TP_URL = "https://tp.mu/holler/lookup_msisdn.php";
+    static String DASHING_URL = "http://ec2-54-78-119-210.eu-west-1.compute.amazonaws.com:80/widgets/welcome";
     static String CHARSET = "UTF-8";
     static String TOKEN = "9YtXr4AhVKaqBWrTmNYj2Px";
     static String COUNTRY = "original-country";
@@ -38,10 +40,13 @@ public class TADSPollService {
 	} 
 	if(fromNumber.startsWith("+")) {
 		fromNumber = fromNumber.substring(1, fromNumber.length());
-	}
-	if(fromNumber.startsWith("00")) {
+	} else if(fromNumber.startsWith("00")) {
+		fromNumber = fromNumber.substring(2, fromNumber.length());
+	} else {
 		fromNumber = fromNumber.substring(1, fromNumber.length());
+		fromNumber = "44" + fromNumber;
 	}
+
 	
 	String query = String.format("token=%s&msisdn=%s", URLEncoder.encode(TOKEN, CHARSET), URLEncoder.encode(fromNumber, CHARSET));
 
@@ -72,6 +77,25 @@ public class TADSPollService {
 		}
 	}
 	return location;
+    }
+
+    boolean updateDashboard(String birthDate, String location, String favDrink) throws Exception {
+	HttpURLConnection con = (HttpURLConnection) new URL(DASHING_URL).openConnection();
+	con.setDoOutput(true);
+	con.setDoInput(true);
+	con.setRequestProperty("Content-Type", "application/json");
+	con.setRequestProperty("Accept", "application/json");
+	con.setRequestMethod("POST");
+	
+	OutputStreamWriter wr= new OutputStreamWriter(con.getOutputStream());
+	wr.write("{ \"auth_token\": \"YOUR_AUTH_TOKEN\", \"text\": \"" + birthDate + location + favDrink + "\" }");
+	wr.flush();
+
+	int status = con.getResponseCode();
+	if(status == 200) {
+		return true;
+	}
+	return false;
     }
 
     String getDrink(String drink) {

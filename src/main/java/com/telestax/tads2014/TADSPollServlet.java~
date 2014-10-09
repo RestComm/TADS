@@ -48,7 +48,12 @@ public class TADSPollServlet extends HttpServlet {
 
 	System.out.println("from " + fromNumber + ", to " + toNumber + ", drink " + drink);
 	System.out.println("birthDate " + birthDate + ", location " + location + ", favDrink " + favDrink);
-
+	
+	try {
+		tadsPollService.updateDashboard(birthDate, location, favDrink);
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
 //        resp.setContentType("text/html");
 	resp.setContentType("application/json");
         PrintWriter writer = resp.getWriter();
