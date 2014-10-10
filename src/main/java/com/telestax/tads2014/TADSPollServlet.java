@@ -68,10 +68,12 @@ public class TADSPollServlet extends HttpServlet {
 					favDrink, phoneNumberInformation);
 
 			try {
-				boolean updated = tadsPollService.updateDashboard(tads2014Response);
+				boolean updated = tadsPollService.updateDashingDashboard(tads2014Response);
 				System.out.println("dashing udpated ? " + updated);
-				updated = tadsPollService.updateHeatMap(tads2014Response);
+				updated = tadsPollService.updateDashingHeatMap(tads2014Response);
 				System.out.println("dashing heatmap udpated ? " + updated);
+				updated = tadsPollService.updateDashingDrink(drink);
+				System.out.println("dashing drink udpated ? " + updated);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
