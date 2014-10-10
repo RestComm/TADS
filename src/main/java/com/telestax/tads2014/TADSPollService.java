@@ -18,7 +18,7 @@ import com.google.gson.Gson;
  */
 public class TADSPollService {
 
-	static String TP_URL = "https://tp.mu/holler/lookup_msisdn.php";
+	static String TP_URL = "https://dev.tp.mu/holler/lookup_msisdn.php";
 	static String DASHING_URL = "http://ec2-54-78-119-210.eu-west-1.compute.amazonaws.com:80/widgets/welcome";
 	static String DASHING_DRINK_URL = "http://ec2-54-78-119-210.eu-west-1.compute.amazonaws.com:80/widgets/";
 	static String DASHING_HEATMAP_URL = "http://ec2-54-78-119-210.eu-west-1.compute.amazonaws.com:80/widgets/heatmap";
