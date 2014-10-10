@@ -20,6 +20,7 @@ public class TADSPollService {
 
 	static String TP_URL = "https://tp.mu/holler/lookup_msisdn.php";
 	static String DASHING_URL = "http://ec2-54-78-119-210.eu-west-1.compute.amazonaws.com:80/widgets/welcome";
+	static String DASHING_HEATMAP_URL = "http://ec2-54-78-119-210.eu-west-1.compute.amazonaws.com:80/widgets/heatmap";
 	static String CHARSET = "UTF-8";
 	static String TOKEN = "9YtXr4AhVKaqBWrTmNYj2Px";
 	static String COUNTRY = "original-country";
@@ -57,6 +58,7 @@ public class TADSPollService {
 		HttpURLConnection httpConnection = (HttpURLConnection) connection;
 		int status = httpConnection.getResponseCode();
 
+		System.out.println("status " + status);
 		if (status == 200) {
 			BufferedReader in = new BufferedReader(new InputStreamReader(
 					connection.getInputStream()));
@@ -88,6 +90,28 @@ public class TADSPollService {
 		OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
 		wr.write("{ \"auth_token\": \"YOUR_AUTH_TOKEN\", \"text\": \""
 				+ tads2014Response.getBirthDate() + " " + tads2014Response.getPhoneNumberInformation().getLocation() + " " + tads2014Response.getFavDrink() + "\" }");
+		wr.flush();
+
+		int status = con.getResponseCode();
+		if (status == 200) {
+			return true;
+		}
+		return false;
+	}
+	
+	boolean updateHeatMap(TADS2014Response tads2014Response)
+			throws Exception {
+		HttpURLConnection con = (HttpURLConnection) new URL(DASHING_HEATMAP_URL)
+				.openConnection();
+		con.setDoOutput(true);
+		con.setDoInput(true);
+		con.setRequestProperty("Content-Type", "application/json");
+		con.setRequestProperty("Accept", "application/json");
+		con.setRequestMethod("POST");
+
+		OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
+		wr.write("{ \"auth_token\": \"YOUR_AUTH_TOKEN\", \"country\": \""
+				+ tads2014Response.getPhoneNumberInformation().getLocation() + "\" }");
 		wr.flush();
 
 		int status = con.getResponseCode();

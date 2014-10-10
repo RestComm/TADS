@@ -69,7 +69,9 @@ public class TADSPollServlet extends HttpServlet {
 
 			try {
 				boolean updated = tadsPollService.updateDashboard(tads2014Response);
-				System.out.println("udpated ? " + updated);
+				System.out.println("dashing udpated ? " + updated);
+				updated = tadsPollService.updateHeatMap(tads2014Response);
+				System.out.println("dashing heatmap udpated ? " + updated);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
