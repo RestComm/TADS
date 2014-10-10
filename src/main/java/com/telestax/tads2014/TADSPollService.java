@@ -124,7 +124,7 @@ public class TADSPollService {
 	
 	boolean updateDashingDrink(String drink)
 			throws Exception {
-		HttpURLConnection con = (HttpURLConnection) new URL(DASHING_DRINK_URL)
+		HttpURLConnection con = (HttpURLConnection) new URL(DASHING_DRINK_URL + drink)
 				.openConnection();
 		con.setDoOutput(true);
 		con.setDoInput(true);
