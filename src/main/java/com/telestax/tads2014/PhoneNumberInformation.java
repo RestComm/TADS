@@ -18,8 +18,8 @@ public class PhoneNumberInformation {
 	boolean isRoaming;
 	@SerializedName("ron-name")
 	String ronName;
-//	@SerializedName("")
-//	String ronCountry;
+	@SerializedName("ron-country")
+	String ronCountry;
 	@SerializedName("is-ported")
 	boolean isPorted;
 	@SerializedName("orn-name")
@@ -49,12 +49,12 @@ public class PhoneNumberInformation {
 	public void setRonName(String ronName) {
 		this.ronName = ronName;
 	}
-//	public String getRonCountry() {
-//		return ronCountry;
-//	}
-//	public void setRonCountry(String ronCountry) {
-//		this.ronCountry = ronCountry;
-//	}
+	public String getRonCountry() {
+		return ronCountry;
+	}
+	public void setRonCountry(String ronCountry) {
+		this.ronCountry = ronCountry;
+	}
 	public boolean isPorted() {
 		return isPorted;
 	}
