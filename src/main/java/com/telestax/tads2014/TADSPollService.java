@@ -59,7 +59,7 @@ public class TADSPollService {
 		int status = httpConnection.getResponseCode();
 
 		System.out.println("status " + status);
-		if (status == 200) {
+		if (status >= 200 && status < 300) {
 			BufferedReader in = new BufferedReader(new InputStreamReader(
 					connection.getInputStream()));
 			String responseBody = "";
@@ -93,7 +93,7 @@ public class TADSPollService {
 		wr.flush();
 
 		int status = con.getResponseCode();
-		if (status == 200) {
+		if (status >= 200 && status < 300) {
 			return true;
 		}
 		return false;
@@ -115,7 +115,7 @@ public class TADSPollService {
 		wr.flush();
 
 		int status = con.getResponseCode();
-		if (status == 200) {
+		if (status >= 200 && status < 300) {
 			return true;
 		}
 		return false;
