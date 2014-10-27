@@ -199,8 +199,8 @@ public class ODSPollService {
 		}
 		
 		OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
-		String updateRequest = "{ \"auth_token\": \"YOUR_AUTH_TOKEN\", \"value\":[{ \"label\": \"In Production\", \"increment\": " + productionIncrement + " }, "
-				+ "{ \"label\": \"Pre Production\", \"increment\": " + preProductionIncrement + " }, { \"label\": \"Development\", \"increment\": " + devIncrement + " },"
+		String updateRequest = "{ \"auth_token\": \"YOUR_AUTH_TOKEN\", \"value\":[{ \"label\": \"Prod\", \"increment\": " + productionIncrement + " }, "
+				+ "{ \"label\": \"PreProd\", \"increment\": " + preProductionIncrement + " }, { \"label\": \"Development\", \"increment\": " + devIncrement + " },"
 						+ "{ \"label\": \"If only...\", \"increment\": " + otherIncrement + " }] }";
 		System.out.println(DASHING_ENVIRONMENT_URL + " : Environment request " + updateRequest);
 		wr.write(updateRequest);
