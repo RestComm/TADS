@@ -107,9 +107,11 @@ public class ODSPollService {
 		}
 		
 		OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
-		wr.write("{ \"auth_token\": \"YOUR_AUTH_TOKEN\", \"value\":[{ \"label\": \"User\", \"increment\": " + userIncrement + " }, "
+		String updateRequest = "{ \"auth_token\": \"YOUR_AUTH_TOKEN\", \"value\":[{ \"label\": \"User\", \"increment\": " + userIncrement + " }, "
 				+ "{ \"label\": \"Vendor\", \"increment\": " + vendorIncrement + " }, { \"label\": \"Integrator\", \"increment\": " + integratorIncrement + " },"
-						+ "{ \"label\": \"Other\", \"increment\": " + otherIncrement + " }] }");
+						+ "{ \"label\": \"Other\", \"increment\": " + otherIncrement + " }] }";
+		System.out.println(DASHING_ROLE_URL + " : Role request " + updateRequest);
+		wr.write(updateRequest);
 		wr.flush();
 
 		int status = con.getResponseCode();
@@ -155,10 +157,12 @@ public class ODSPollService {
 		}
 		
 		OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
-		wr.write("{ \"auth_token\": \"YOUR_AUTH_TOKEN\", \"value\":[{ \"label\": \"ubuntu\", \"increment\": " + ubuntuIncrement + " }, "
+		String updateRequest = "{ \"auth_token\": \"YOUR_AUTH_TOKEN\", \"value\":[{ \"label\": \"ubuntu\", \"increment\": " + ubuntuIncrement + " }, "
 				+ "{ \"label\": \"Red Hat\", \"increment\": " + redhatIncrement + " }, { \"label\": \"Mirandis\", \"increment\": " + mirandisIncrement + " },"
 				+ "{ \"label\": \"HP\", \"increment\": " + hpIncrement + " }, { \"label\": \"Community\", \"increment\": " + communityIncrement + " }, "
-				+ "{ \"label\": \"Other\", \"increment\": " + otherIncrement + " }, { \"label\": \"Multiple\", \"increment\": " + multipleIncrement + " }] }");
+				+ "{ \"label\": \"Other\", \"increment\": " + otherIncrement + " }, { \"label\": \"Multiple\", \"increment\": " + multipleIncrement + " }] }";
+		System.out.println(DASHING_DISTRIBUTION_URL + " : Distribution request " + updateRequest);
+		wr.write(updateRequest);
 		wr.flush();
 		
 		int status = con.getResponseCode();
@@ -195,9 +199,11 @@ public class ODSPollService {
 		}
 		
 		OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
-		wr.write("{ \"auth_token\": \"YOUR_AUTH_TOKEN\", \"value\":[{ \"label\": \"In Production\", \"increment\": " + productionIncrement + " }, "
+		String updateRequest = "{ \"auth_token\": \"YOUR_AUTH_TOKEN\", \"value\":[{ \"label\": \"In Production\", \"increment\": " + productionIncrement + " }, "
 				+ "{ \"label\": \"Pre Production\", \"increment\": " + preProductionIncrement + " }, { \"label\": \"Development\", \"increment\": " + devIncrement + " },"
-						+ "{ \"label\": \"I wish I had it\", \"increment\": " + otherIncrement + " }] }");
+						+ "{ \"label\": \"I wish I had it\", \"increment\": " + otherIncrement + " }] }";
+		System.out.println(DASHING_ENVIRONMENT_URL + " : Environment request " + updateRequest);
+		wr.write(updateRequest);
 		wr.flush();
 		
 		int status = con.getResponseCode();
@@ -218,8 +224,10 @@ public class ODSPollService {
 		con.setRequestMethod("POST");
 
 		OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
-		wr.write("{ \"auth_token\": \"YOUR_AUTH_TOKEN\", \"country\": \""
-				+ ods2014Response.getPhoneNumberInformation().getLocation() + "\" }");
+		String updateRequest = "{ \"auth_token\": \"YOUR_AUTH_TOKEN\", \"country\": \""
+				+ ods2014Response.getPhoneNumberInformation().getLocation() + "\" }";
+		System.out.println(DASHING_HEATMAP_URL + " : HeatMap request " + updateRequest);
+		wr.write(updateRequest);
 		wr.flush();
 
 		int status = con.getResponseCode();
