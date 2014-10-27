@@ -19,9 +19,10 @@ import com.google.gson.Gson;
 public class TADSPollService {
 
 	static String TP_URL = "https://dev.tp.mu/holler/lookup_msisdn.php";
-	static String DASHING_URL = "http://ec2-54-78-119-210.eu-west-1.compute.amazonaws.com:80/widgets/welcome";
-	static String DASHING_DRINK_URL = "http://ec2-54-78-119-210.eu-west-1.compute.amazonaws.com:80/widgets/";
-	static String DASHING_HEATMAP_URL = "http://ec2-54-78-119-210.eu-west-1.compute.amazonaws.com:80/widgets/heatmap";
+	static String DASHING_BASE_URL="http://ec2-79-125-68-2.eu-west-1.compute.amazonaws.com:80/";
+	static String DASHING_URL = DASHING_BASE_URL + "widgets/welcome";
+	static String DASHING_DRINK_URL = DASHING_BASE_URL + "widgets/";
+	static String DASHING_HEATMAP_URL = DASHING_BASE_URL + "widgets/heatmap";
 	static String CHARSET = "UTF-8";
 	static String TOKEN = "9YtXr4AhVKaqBWrTmNYj2Px";
 	static String COUNTRY = "original-country";
