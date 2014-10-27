@@ -22,7 +22,7 @@ public class ODSPollService {
 	static String DASHING_BASE_URL="http://ec2-54-216-246-177.eu-west-1.compute.amazonaws.com:80/";
 	static String DASHING_ROLE_URL = DASHING_BASE_URL + "widgets/role";
 	static String DASHING_DISTRIBUTION_URL = DASHING_BASE_URL + "widgets/distribution";
-	static String DASHING_ENVIRONMENT_URL = DASHING_BASE_URL + "widgets/environment";
+	static String DASHING_ENVIRONMENT_URL = DASHING_BASE_URL + "widgets/status";
 	static String DASHING_HEATMAP_URL = DASHING_BASE_URL + "widgets/heatmap";
 	static String CHARSET = "UTF-8";
 	static String TOKEN = "9YtXr4AhVKaqBWrTmNYj2Px";
@@ -201,7 +201,7 @@ public class ODSPollService {
 		OutputStreamWriter wr = new OutputStreamWriter(con.getOutputStream());
 		String updateRequest = "{ \"auth_token\": \"YOUR_AUTH_TOKEN\", \"value\":[{ \"label\": \"In Production\", \"increment\": " + productionIncrement + " }, "
 				+ "{ \"label\": \"Pre Production\", \"increment\": " + preProductionIncrement + " }, { \"label\": \"Development\", \"increment\": " + devIncrement + " },"
-						+ "{ \"label\": \"I wish I had it\", \"increment\": " + otherIncrement + " }] }";
+						+ "{ \"label\": \"If only...\", \"increment\": " + otherIncrement + " }] }";
 		System.out.println(DASHING_ENVIRONMENT_URL + " : Environment request " + updateRequest);
 		wr.write(updateRequest);
 		wr.flush();
