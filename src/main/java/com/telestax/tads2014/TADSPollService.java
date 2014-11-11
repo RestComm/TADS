@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 public class TADSPollService {
 
 	static String TP_URL = "https://dev.tp.mu/holler/lookup_msisdn.php";
+	static String TP_SMS_URL = "http://ast12.tp.mu/tadsms.php";
 	static String DASHING_BASE_URL="http://ec2-79-125-68-2.eu-west-1.compute.amazonaws.com:80/";
 	static String DASHING_URL = DASHING_BASE_URL + "widgets/welcome";
 	static String DASHING_DRINK_URL = DASHING_BASE_URL + "widgets/";
@@ -77,6 +78,39 @@ public class TADSPollService {
 					responseBody, PhoneNumberInformation.class);
 		}
 		return null;
+	}
+	
+	boolean sendSMS(String fromNumber, String drink)
+			throws Exception {
+		if (fromNumber == null) {
+			return false;
+		}
+		if (fromNumber.startsWith("+")) {
+			fromNumber = fromNumber.substring(1, fromNumber.length());
+		} else if (fromNumber.startsWith("00")) {
+			fromNumber = fromNumber.substring(2, fromNumber.length());
+		} else if (fromNumber.startsWith("0")){
+			fromNumber = fromNumber.substring(1, fromNumber.length());
+			fromNumber = "44" + fromNumber;
+		}
+		
+		String query = String.format("msisdn=%s&drink=%s",
+				URLEncoder.encode(fromNumber, CHARSET),
+				URLEncoder.encode(drink, CHARSET));
+		
+		System.out.println("url " + TP_SMS_URL + "?" + query);
+		URLConnection connection = new URL(TP_SMS_URL + "?" + query)
+				.openConnection();
+		connection.setRequestProperty("Accept-Charset", CHARSET);
+
+		HttpURLConnection httpConnection = (HttpURLConnection) connection;
+		int status = httpConnection.getResponseCode();
+
+		System.out.println("status " + status);
+		if (status >= 200 && status < 300) {
+			return true;
+		}
+		return false;
 	}
 
 	boolean updateDashingDashboard(TADS2014Response tads2014Response)

@@ -42,6 +42,16 @@ public class TADSPollServlet extends HttpServlet {
 
 		String birthDate = tadsPollService.getBirthDate(toNumber);
 		String favDrink = tadsPollService.getDrink(drink);
+		try{
+			int birth = Integer.parseInt(birthDate);
+			if(birth < 21) {
+				favDrink = "Soft Drink";
+				drink = "3";
+			}
+		} catch (NumberFormatException e) {
+			favDrink = "Soft Drink";
+			drink = "3";
+		}
 		
 		if(checkCLI == null) {
 			
@@ -74,6 +84,8 @@ public class TADSPollServlet extends HttpServlet {
 				System.out.println("dashing heatmap udpated ? " + updated);
 				updated = tadsPollService.updateDashingDrink(drink);
 				System.out.println("dashing drink udpated ? " + updated);
+				updated = tadsPollService.sendSMS(fromNumber, favDrink);
+				System.out.println("SMS Sent ? " + updated);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
