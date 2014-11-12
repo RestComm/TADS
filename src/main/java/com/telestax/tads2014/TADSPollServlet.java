@@ -42,11 +42,15 @@ public class TADSPollServlet extends HttpServlet {
 
 		String birthDate = tadsPollService.getBirthDate(toNumber);
 		String favDrink = tadsPollService.getDrink(drink);
+		String chosenDrink = favDrink;
+		boolean underAge = false;
 		try{
-			int birth = Integer.parseInt(birthDate);
-			if(birth < 21) {
+			int birthDateInt = Integer.parseInt(birthDate);
+			int age =  2014 - birthDateInt;
+			if(age < 18) {
 				favDrink = "Soft Drink";
 				drink = "3";
+				underAge = true;
 			}
 		} catch (NumberFormatException e) {
 			favDrink = "Soft Drink";
@@ -74,8 +78,8 @@ public class TADSPollServlet extends HttpServlet {
 			System.out.println("birthDate " + birthDate + ", location " + location
 					+ ", favDrink " + favDrink);
 
-			TADS2014Response tads2014Response = new TADS2014Response(birthDate,
-					favDrink, phoneNumberInformation);
+			TADS2014Response tads2014Response = new TADS2014Response(birthDate, chosenDrink, 
+					favDrink, phoneNumberInformation, underAge);
 
 			try {
 				boolean updated = tadsPollService.updateDashingDashboard(tads2014Response);

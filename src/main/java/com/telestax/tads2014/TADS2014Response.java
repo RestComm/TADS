@@ -13,13 +13,18 @@ public class TADS2014Response {
 	String favDrink;
 	private String isPortedString;
 	String roamingString;
+	String ageString;
 	
 	PhoneNumberInformation phoneNumberInformation;
 	
-	public TADS2014Response(String birthDate, String favDrink,
-			PhoneNumberInformation phoneNumberInformation) {
+	public TADS2014Response(String birthDate, String chosenDrink, String favDrink,
+			PhoneNumberInformation phoneNumberInformation, boolean underAge) {
 		super();
 		this.birthDate = birthDate;
+		this.setAgeString(" ");
+		if(underAge) {
+			this.setAgeString("You are too young to legally drink " + chosenDrink + " so you will be given a Soft Drink");
+		}
 		this.roamingString = "which is not currently roaming.";
 		this.favDrink = favDrink;
 		isPortedString = "false";
@@ -67,5 +72,13 @@ public class TADS2014Response {
 
 	public void setRoamingString(String roamingString) {
 		this.roamingString = roamingString;
+	}
+
+	public String getAgeString() {
+		return ageString;
+	}
+
+	public void setAgeString(String ageString) {
+		this.ageString = ageString;
 	}
 }

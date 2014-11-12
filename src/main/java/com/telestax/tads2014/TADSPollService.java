@@ -30,9 +30,9 @@ public class TADSPollService {
 
 	String getBirthDate(String fromNumber) {
 		if (fromNumber == null) {
-			return "69";
+			return "1969";
 		}
-		return fromNumber.substring(fromNumber.length() - 2,
+		return fromNumber.substring(fromNumber.length() - 4,
 				fromNumber.length());
 	}
 
